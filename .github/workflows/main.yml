@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Fetch all history to ensure we have access to all commits
 
       - name: Check for changes in backend/config
         id: changes
