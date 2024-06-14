@@ -1,39 +1,39 @@
-# name: Check config changes
+name: Check config changes
 
-# on:
-#   push:
-#     branches:
-#       - main
+on:
+  push:
+    branches:
+      - main
 
-# jobs:
-#   check-config-changes:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout repository
-#         uses: actions/checkout@v2
-#         with:
-#           fetch-depth: 0  # Fetch all history to ensure we have access to all commits
+jobs:
+  check-config-changes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Fetch all history to ensure we have access to all commits
 
-#       - name: Check for changes in backend/config
-#         id: changes
-#         run: |
-#           # Get a list of files changed in this push
-#           changes=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
-#           echo "Changed files: $changes"
-#           # Check if there are any changes in the backend/config directory
-#           if echo "$changes" | grep -q '^backend/config/'; then
-#             echo "changes_in_config=true" >> $GITHUB_ENV
-#           else
-#             echo "changes_in_config=false" >> $GITHUB_ENV
-#           fi
+      - name: Check for changes in backend/config
+        id: changes
+        run: |
+          # Get a list of files changed in this push
+          changes=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+          echo "Changed files: $changes"
+          # Check if there are any changes in the backend/config directory
+          if echo "$changes" | grep -q '^backend/config/'; then
+            echo "changes_in_config=true" >> $GITHUB_ENV
+          else
+            echo "changes_in_config=false" >> $GITHUB_ENV
+          fi
 
-#       - name: Echo message
-#         run: |
-#           if [ "${{ env.changes_in_config }}" == "true" ]; then
-#             echo "Hello"
-#           else
-#             echo "Bye"
-#           fi
+      - name: Echo message
+        run: |
+          if [ "${{ env.changes_in_config }}" == "true" ]; then
+            echo "Hello"
+          else
+            echo "Bye"
+          fi
 
 
 
@@ -76,46 +76,46 @@
 
 
 
-name: Check config changes
+# name: Check config changes
 
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
 
-jobs:
-  check-config-changes:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 1  # Fetch only the latest commit history
+# jobs:
+#   check-config-changes:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v2
+#         with:
+#           fetch-depth: 1  # Fetch only the latest commit history
 
-      - name: Check for changes in backend/config
-        id: changes
-        run: |
-          # Debug: Show the latest commit details
-          echo "Latest commit details:"
-          git log -1
+#       - name: Check for changes in backend/config
+#         id: changes
+#         run: |
+#           # Debug: Show the latest commit details
+#           echo "Latest commit details:"
+#           git log -1
 
-          # Get a list of files changed in the latest commit
-          changes=$(git show --name-only --pretty="" HEAD)
-          echo "Changed files:"
-          echo "$changes"
+#           # Get a list of files changed in the latest commit
+#           changes=$(git show --name-only --pretty="" HEAD)
+#           echo "Changed files:"
+#           echo "$changes"
 
-          # Check if there are any changes in the backend/config directory
-          if echo "$changes" | grep -q '^backend/config/'; then
-            echo "changes_in_config=true" >> $GITHUB_ENV
-          else
-            echo "changes_in_config=false" >> $GITHUB_ENV
-          fi
+#           # Check if there are any changes in the backend/config directory
+#           if echo "$changes" | grep -q '^backend/config/'; then
+#             echo "changes_in_config=true" >> $GITHUB_ENV
+#           else
+#             echo "changes_in_config=false" >> $GITHUB_ENV
+#           fi
 
-      - name: Echo message
-        run: |
-          echo "Environment variable changes_in_config: ${{ env.changes_in_config }}"
-          if [ "${{ env.changes_in_config }}" == "true" ]; then
-            echo "Hello"
-          else
-            echo "Bye"
-          fi
+#       - name: Echo message
+#         run: |
+#           echo "Environment variable changes_in_config: ${{ env.changes_in_config }}"
+#           if [ "${{ env.changes_in_config }}" == "true" ]; then
+#             echo "Hello"
+#           else
+#             echo "Bye"
+#           fi
